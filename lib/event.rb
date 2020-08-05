@@ -69,4 +69,25 @@ class Event
     date_v.strftime("%d/%m/%Y")
   end
 
+  def sell(item, amount)
+      if total_quantity([item, 0]) < amount
+        false
+      else
+        remove_quantity(item, amount)
+        true
+      end
+  end
+
+  def remove_quantity(g_item, number)
+    total_inventory[g_item][:food_trucks].map do |truck|
+      if truck.inventory[g_item] - number > 0
+        truck.remove_stock(g_item, number)
+      else
+        require "pry"; binding.pry
+      end
+    end
+
+  end
+
+
 end
