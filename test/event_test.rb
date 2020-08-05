@@ -3,6 +3,7 @@ require './lib/food_truck'
 require './lib/event'
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'mocha/minitest'
 
 class EventTest <  Minitest::Test
   def test_it_exists
@@ -231,4 +232,11 @@ class EventTest <  Minitest::Test
 
     assert_equal [item1], event.overstocked_items
   end
+
+  def test_has_date
+    event = Event.new("South Pearl Street Farmers Market")
+    event.stubs(:date_v).returns(Date.new(2020,2,24))
+    assert_equal "24/02/2020", event.date
+  end
+
 end

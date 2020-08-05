@@ -1,10 +1,13 @@
+require 'date'
+
 class Event
 
-  attr_reader :name, :food_trucks
+  attr_reader :name, :food_trucks, :date_v
 
   def initialize(name)
     @name = name
     @food_trucks = []
+    @date_v = Date.today
   end
 
   def add_food_truck(truck)
@@ -60,6 +63,10 @@ class Event
       end
     end
     overstock.find_all {|item| item[1][:vc] > 1 && item[1][:tq] > 50}
+  end
+
+  def date
+    date_v.strftime("%d/%m/%Y")
   end
 
 end
