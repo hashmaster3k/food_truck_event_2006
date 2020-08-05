@@ -25,4 +25,26 @@ class Event
       acc.flatten.uniq.sort
     end
   end
+
+  def total_inventory
+    result = Hash.new{|overstock, name| overstock[name] = {}}
+    @food_trucks.each do |truck|
+      truck.inventory.each do |item|
+        result[item[0]] = {quantity: total_quantity(item),
+                           food_trucks: food_trucks_that_sell(item[0])}
+      end
+    end
+    result
+  end
+
+  def total_quantity(given)
+    total = 0
+    @food_trucks.each do |truck|
+      truck.inventory.each do |item|
+        total += item[1] if given[0] == item[0]
+      end
+    end
+    total
+  end
+
 end
