@@ -47,4 +47,19 @@ class Event
     total
   end
 
+  def overstocked_items
+    get_over_stock_list.map {|item| item[0]}
+  end
+
+  def get_over_stock_list
+    overstock = Hash.new{|h,k| h[k] = {}}
+    @food_trucks.each do |truck|
+      truck.inventory.each do |item, quantity|
+        overstock[item] = {vc: food_trucks_that_sell(item).length,
+                           tq: quantity}
+      end
+    end
+    overstock.find_all {|item| item[1][:vc] > 1 && item[1][:tq] > 50}
+  end
+
 end
